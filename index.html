@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weng Coffee | Cita Rasa Legendaris</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3d2b1f; 
+            --accent: #d4a373;  
+            --light: #fefae0;   
+            --dark: #1a120b;    
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--light); color: var(--dark); line-height: 1.6; }
+
+        /* Navigation */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 10%; background: var(--white);
+            position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .logo { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: bold; color: var(--primary); text-decoration: none; }
+        .logo span { color: var(--accent); }
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 25px; }
+        nav ul li a { text-decoration: none; color: var(--dark); font-weight: 600; font-size: 0.9rem; transition: 0.3s; }
+        nav ul li a:hover { color: var(--accent); }
+
+        /* Hero Section */
+        .hero {
+            height: 70vh;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1350&q=80');
+        
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; color: var(--white); padding: 0 20px;
+        }
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; margin-bottom: 10px; }
+        .hero p { font-size: 1.1rem; max-width: 700px; font-weight: 300; }
+
+        /* Global Section Styling */
+        .section { padding: 80px 10%; }
+        .title-box { text-align: center; margin-bottom: 50px; }
+        .title-box h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary); position: relative; display: inline-block; }
+        .title-box h2::after { content: ''; width: 50%; height: 3px; background: var(--accent); position: absolute; bottom: -10px; left: 25%; }
+
+        /* History Section */
+        .history-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .history-img img { width: 100%; border-radius: 15px; box-shadow: 15px 15px 0 var(--accent); }
+        .history-text h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 15px; color: var(--primary); }
+
+        /* Menu Section */
+        #menu { background-color: #fdf8f3; }
+        .menu-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .menu-card { background: var(--white); padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .cat-title { font-family: 'Playfair Display', serif; border-bottom: 2px solid var(--accent); margin-bottom: 20px; padding-bottom: 8px; color: var(--primary); }
+        .menu-item { display: flex; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px dashed #eee; padding-bottom: 5px; }
+        .item-name { font-weight: 500; font-size: 0.95rem; }
+        .item-price { color: var(--accent); font-weight: bold; }
+
+        /* Gallery Section - BAGIAN BARU */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .gallery-item {
+            height: 250px;
+            overflow: hidden;
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            padding: 20px;
+            color: white;
+            opacity: 0;
+            transition: 0.3s;
+        }
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        /* Contact Section */
+        .contact-box { 
+            background: var(--primary); color: white; border-radius: 20px; padding: 40px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
+        }
+        .contact-info h3 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 15px; }
+        .address-item { margin-bottom: 15px; display: flex; align-items: flex-start; }
+        .map-placeholder { width: 100%; height: 300px; background: #4e3d30; border-radius: 12px; overflow: hidden; }
+        iframe { width: 100%; height: 100%; border: 0; }
+
+        footer { text-align: center; padding: 30px; background: var(--dark); color: white; font-size: 0.8rem; }
+
+        @media (max-width: 768px) {
+            .history-grid, .contact-box { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.2rem; }
+            nav { padding: 15px 5%; }
+            nav ul { display: none; }
+            .section { padding: 60px 5%; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">WENG<span>COFFEE</span></a>
+        <ul>
+            <li><a href="#home">Beranda</a></li>
+            <li><a href="#history">Sejarah</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#gallery">Galeri</a></li>
+            <li><a href="#contact">Lokasi</a></li>
+        </ul>
+    </nav>
+
+    <header id="home" class="hero">
+        <h1>Weng Coffee</h1>
+        <p>#Sahabatngopibareng.</p>
+    </header>
+
+    <section id="history" class="section">
+        <div class="title-box">
+            <h2>Sejarah Kami</h2>
+        </div>
+        <div class="history-grid">
+            <div class="history-img">
+                <img src="c:\Users\SMKN1 TEBAS\Downloads\pemangkat.webp" alt="Suasana Kedai">
+            </div>
+            <div class="history-text">
+                <h3>Warisan Sejak 1970</h3>
+                <p>Weng Coffee memiliki sejarah panjang yang berakar sejak tahun 1970 di Pontianak berikut adalah garis waktu perkembangan usahanya:</p>
+                <br>
+                <p>Awal Berdiri (1970): Bermula sebagai toko yang menjual produk kopi bubuk tradisional berkualitas untuk masyrakat Pontianak, Nama "Weng" sendiri diambil dari nama kakek sang pendiri. Transformasi (2020):
+                  Mulai merambah ke konsep coffee shop modern yang kekinian di Pontianak untuk beradaptasi dengan tren pasar. Ekspansi (2023-2026): Membuka outlet ke-7 dengan konsep rooftop di Tanray II, Pontianak pada 7 Januari 2023. Membuka cabang pertama di Singkawang pada 10 Juni 2025. Terus berekspansi ke wilayah lain seperti Tebas(November 2025) dan Sanggau
+                 Hingga awal tahun 2026,weng coffe telah mengoperasikan puluhan outlet (tercatat 33 cabang di pontianak pada akhir 2025) di seluruh Kalimantan Barat. </p>
+            </div> 
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="section">
+        <div class="title-box">
+            <h2>MENU</h2>
+         <section id="menu" class="section">  
+        <h2 class="title">Dessert</h2>
+        <br></br>
+        <div class="menu-container">
+            <div class="menu-card">
+             <h3 class="cat-title">Pudding</h3>
+            <div class="menu-item"><span class="item-name">Pudding Coklat</span><span class="item-price">28k</span></div>
+            <div class="menu-item"><span class="item-name">Pudding Taro</span><span class="item-price">28k</span></div>
+            <div class="menu-item"><span class="item-name">Pudding Matcha</span><span class="item-price">28k</span></div>
+            <div class="menu-item"><span class="item-name">Pudding Mango</span><span class="item-price">28k</span></div>
+            <div class="menu-item"><span class="item-name">Pudding Grass Jelly</span><span class="item-price">28k</span></div>
+
+            </div>
+            <div class="menu-card">
+            <h3 class="cat-title">Snow Ice</h3>
+            <div class="menu-item"><span class="item-name">Volcano Choco</span><span class="item-price">28k</span></div>
+            <div class="menu-item"><span class="item-name">Volcano Mango</span><span class="item-price">28k</span></div>
+            <div class="menu-item"><span class="item-name">Volcano Milk</span><span class="item-price">28k</span></div>
+            <div class="menu-item"><span class="item-name">Volcano Yogurt</span><span class="item-price">28k</span></div>
+            <div class="menu-item"><span class="item-name">Volcano Strawberry Milk</span><span class="item-price">28k</span></div>
+        </div>
+         <div class="menu-card">
+            <h3 class="cat-title">Ice Cream</h3>
+            <div class="menu-item"><span class="item-name">Choco Ice Cream</span><span class="item-price">28k</span></div>
+            <div class="menu-item"><span class="item-name">Vanilla Ice Cream</span><span class="item-price">28k</span></div>
+            <div class="menu-item"><span class="item-name">Strawberry Ice Cream</span><span class="item-price">28k</span></div>
+        </div>
+
+        <div class="menu-card">
+            <h3 class="cat-title">Soft Cream - Choco</h3>
+            <div class="menu-item"><span class="item-name">Opera Sweet Choco</span><span class="item-price">12k</span></div>
+            <div class="menu-item"><span class="item-name">Emilia Choco Browny</span><span class="item-price">20k</span></div>
+            <div class="menu-item"><span class="item-name">Colosseum Choco Almond</span><span class="item-price">20k</span></div>
+            <div class="menu-item"><span class="item-name">Hokkaido Crunchy Choco</span><span class="item-price">20k</span></div>
+            <div class="menu-item"><span class="item-name">Belgium Choco Berries</span><span class="item-price">20k</span></div>
+            <div class="menu-item"><span class="item-name">Aquila Choco Mangoes</span><span class="item-price">20k</span></div>
+        </div>
+
+        <div class="menu-card">
+            <h3 class="cat-title">Soft Cream - Vanilla</h3>
+            <div class="menu-item"><span class="item-name">Liberty Vanilla</span><span class="item-price">12k</span></div>
+            <div class="menu-item"><span class="item-name">Pisa Vanilla Choco</span><span class="item-price">20k</span></div>
+            <div class="menu-item"><span class="item-name">Eiffel Vanilla Berries</span><span class="item-price">20k</span></div>
+            <div class="menu-item"><span class="item-name">Sky Tree Vanilla Mangoes</span><span class="item-price">20k</span></div>
+            <div class="menu-item"><span class="item-name">Merlion Vanilla Almond</span><span class="item-price">20k</span></div>
+            <div class="menu-item"><span class="item-name">Khalifa Vanilla Browny</span><span class="item-price">20k</span></div>
+        </div>
+    </section>
+</section>
+
+    <section id="menu" class="section">
+        <div class="title-box">
+            <h2>Dish & Snack</h2>
+            <br></br>
+            <div class="menu-container">
+            <div class="menu-card">
+            <h3 class="cat-title">Makanan</h3>
+            <div class="menu-item"><span class="item-name">Nasi Goreng Weng Coffee</span><span class="item-price">28k</span></div>
+            <div class="menu-item"><span class="item-name">Nasi Goreng Petai Teri</span><span class="item-price">30k</span></div>
+            <div class="menu-item"><span class="item-name">Nasi Goreng Sambal Matah</span><span class="item-price">28k</span></div>
+            <div class="menu-item"><span class="item-name">Nasi Goreng Ebi</span><span class="item-price">30k</span></div>
+            <div class="menu-item"><span class="item-name">Capcay Ayam</span><span class="item-price">28k</span></div>
+            <div class="menu-item"><span class="item-name">Nasi Ayam Chili Oil</span><span class="item-price">30k</span></div>
+            <div class="menu-item"><span class="item-name">Chicken Black Sauce</span><span class="item-price">32k</span></div>
+            <div class="menu-item"><span class="item-name">Chicken Steak</span><span class="item-price">32k</span></div>
+            <div class="menu-item"><span class="item-name">Nasi Ayam Saus Mentega</span><span class="item-price">30k</span></div>
+            <div class="menu-item"><span class="item-name">Chicken Cream Mushroom</span><span class="item-price">32k</span></div>
+            <div class="menu-item"><span class="item-name">Beef Black Sauce</span><span class="item-price">35k</span></div>
+            <div class="menu-item"><span class="item-name">Nasi Ayam Teriyaki</span><span class="item-price">30k</span></div>
+            <div class="menu-item"><span class="item-name">Spaghetti Carbonara</span><span class="item-price">30k</span></div>
+            <div class="menu-item"><span class="item-name">Kwetiaw Goreng/Siram</span><span class="item-price">28k</span></div>
+            <div class="menu-item"><span class="item-name">Mie Goreng Jawa Ayam Crispy</span><span class="item-price">28k</span></div>
+            <div class="menu-item"><span class="item-name">Kwetiaw Kuah Ayam</span><span class="item-price">25k</span></div>
+            <div class="menu-item"><span class="item-name">Indomie Goreng/Rebus Ayam Crispy</span><span class="item-price">20k</span></div>
+            <div class="menu-item"><span class="item-name">Nasi Sarden</span><span class="item-price">30k</span></div>
+            <div class="menu-item"><span class="item-name">Nasi Ayam Limau</span><span class="item-price">28k</span></div>
+            <div class="menu-item"><span class="item-name">Nasi Beef Limau</span><span class="item-price">35k</span></div>
+            <div class="menu-item"><span class="item-name">Nasi Ayam Chili Padi</span><span class="item-price">28k</span></div>
+            <div class="menu-item"><span class="item-name">Nasi Beef Chili Padi</span><span class="item-price">38k</span></div>
+        </div>
+    
+        <div class="menu-card">
+            <h3 class="cat-title">Snacks</h3>
+            <div class="menu-item"><span class="item-name">Kentang Original/Balado</span><span class="item-price">18k</span></div>
+            <div class="menu-item"><span class="item-name">Tahu Goreng Crispy</span><span class="item-price">16k</span></div>
+            <div class="menu-item"><span class="item-name">Chicken Pop</span><span class="item-price">20k</span></div>
+            <div class="menu-item"><span class="item-name">Bakwan Goreng (5pcs)</span><span class="item-price">16k</span></div>
+            <div class="menu-item"><span class="item-name">Pisang Goreng (Srikaya/Keju/Coklat)</span><span class="item-price">18k</span></div>
+            <div class="menu-item"><span class="item-name">Singkong Thai (Keju/Coklat/Balado)</span><span class="item-price">18k</span></div>
+            <div class="menu-item"><span class="item-name">Chicken Potato Cheese</span><span class="item-price">28k</span></div>
+        </div>
+
+        <div class="menu-card">
+            <h3 class="cat-title">Dimsum</h3>
+            <div class="menu-item"><span class="item-name">Mantau Kukus/Goreng</span><span class="item-price">18k</span></div>
+            <div class="menu-item"><span class="item-name">Pau Char Siu</span><span class="item-price">18k</span></div>
+            <div class="menu-item"><span class="item-name">Pau Telur Asin</span><span class="item-price">18k</span></div>
+            <div class="menu-item"><span class="item-name">Pau Red Bean</span><span class="item-price">18k</span></div>
+            <div class="menu-item"><span class="item-name">Hakau</span><span class="item-price">18k</span></div>
+            <div class="menu-item"><span class="item-name">Siomay</span><span class="item-price">18k</span></div>
+            <div class="menu-item"><span class="item-name">Lumpia Basah</span><span class="item-price">18k</span></div>
+        </div>
+
+        <div class="menu-card">
+            <h3 class="cat-title">Toast</h3>
+            <div class="menu-item"><span class="item-name">Crunchy Choco Almond</span><span class="item-price">22k</span></div>
+            <div class="menu-item"><span class="item-name">Spicy Beef Toast</span><span class="item-price">28k</span></div>
+            <div class="menu-item"><span class="item-name">Crispy Chicken Toast</span><span class="item-price">28k</span></div>
+            <div class="menu-item"><span class="item-name">Srikaya Almond Toast</span><span class="item-price">27k</span></div>
+            <div class="menu-item"><span class="item-name">Egg and Cheese Toast</span><span class="item-price">25k</span></div>
+        </div>
+        </div>
+
+        <section id="menu" class="section">
+        <div class="title-box">
+            <h2>Drink</h2>
+            <br></br>
+            <div class="menu-container">
+            <div class="menu-card">
+        <h3 class="cat-title">Kopi Series</h3>
+        <div class="menu-item"><span class="item-name">Es Kopi Susu</span><span class="item-price">M 20k | L 24k</span></div>
+        <div class="menu-item"><span class="item-name">Es Kopi Regal</span><span class="item-price">M 26k | L 30k</span></div>
+        <div class="menu-item"><span class="item-name">Es Kopi Macchiato</span><span class="item-price">M 26k | L 30k</span></div>
+        <div class="menu-item"><span class="item-name">Es Kopi Avocado</span><span class="item-price">M 30k | L 34k</span></div>
+        <div class="menu-item"><span class="item-name">Kopi Susu 1L Uncle Weng</span><span class="item-price">90k</span></div>
+    </div>
+
+    <div class="menu-card">
+        <h3 class="cat-title">Choco & Milk Series</h3>
+        <div class="menu-item"><span class="item-name">Choco Matcha</span><span class="item-price">M 24k | L 28k</span></div>
+        <div class="menu-item"><span class="item-name">Klepon Choco Float</span><span class="item-price">M 28k | L 32k</span></div>
+        <div class="menu-item"><span class="item-name">Japanese Matcha</span><span class="item-price">M 24k | L 28k</span></div>
+        <div class="menu-item"><span class="item-name">Vanilla Milk Cheese</span><span class="item-price">M 24k | L 28k</span></div>
+        <div class="menu-item"><span class="item-name">Taro Milk</span><span class="item-price">M 24k | L 28k</span></div>
+    </div>
+
+    <div class="menu-card">
+        <h3 class="cat-title">Yogurt & Tea Series</h3>
+        <div class="menu-item"><span class="item-name">Yogurt Drink / Milk</span><span class="item-price">M 22k | L 26k</span></div>
+        <div class="menu-item"><span class="item-name">Lychee / Strawberry Yogurt</span><span class="item-price">M 22k | L 26k</span></div>
+        <div class="menu-item"><span class="item-name">Lychee / Strawberry Tea</span><span class="item-price">M 22k | L 26k</span></div>
+        <div class="menu-item"><span class="item-name">Mango Macchiato Tea</span><span class="item-price">M 24k | L 28k</span></div>
+    </div>
+
+    <div class="menu-card">
+        <h3 class="cat-title">Brown Sugar Series</h3>
+        <div class="menu-item"><span class="item-name">B.S Bubble Coffee Milk</span><span class="item-price">M 28k | L 32k</span></div>
+        <div class="menu-item"><span class="item-name">B.S Bubble Matcha</span><span class="item-price">M 28k | L 32k</span></div>
+        <div class="menu-item"><span class="item-name">B.S Bubble Milk</span><span class="item-price">M 28k | L 32k</span></div>
+        <div class="menu-item"><span class="item-name">Brown Sugar Klepon</span><span class="item-price">M 28k | L 32k</span></div>
+    </div>
+
+    <div class="menu-card">
+        <h3 class="cat-title">Extra Toppings</h3>
+        <div class="menu-item"><span class="item-name">Bubble / Boba / Jelly</span><span class="item-price">+5k</span></div>
+        <div class="menu-item"><span class="item-name">Ice Cream (Choco/Van/Strob)</span><span class="item-price">+5k</span></div>
+        <div class="menu-item"><span class="item-name">Egg Pudding / Almond</span><span class="item-price">+5k</span></div>
+    </div>
+</div>
+         
+     <section id="menu" class="section">
+        <div class="title-box">
+            <h2>Pastry</h2>
+            <br></br>
+            <div class="menu-container">
+        <div class="menu-card">
+        <h3 class="cat-title">Croissant & Cromboloni</h3>
+        <div class="menu-item"><span class="item-name">Signature Croissant</span><span class="item-price">25k</span></div>
+        <div class="menu-item"><span class="item-name">Almond Croissant</span><span class="item-price">25k</span></div>
+        <div class="menu-item"><span class="item-name">Croissant Choco Chips</span><span class="item-price">25k</span></div>
+        <div class="menu-item"><span class="item-name">Croissant Choco Stick</span><span class="item-price">25k</span></div>
+        <div class="menu-item"><span class="item-name">Choco Fla Vanilla</span><span class="item-price">25k</span></div>
+        <div class="menu-item"><span class="item-name">Cinnamon Croissant</span><span class="item-price">25k</span></div>
+        <div class="menu-item"><span class="item-name">Cromboloni Choco Chips</span><span class="item-price">22k</span></div>
+        <div class="menu-item"><span class="item-name">Cromboloni Almond</span><span class="item-price">22k</span></div>
+    </div>
+
+       <div class="menu-card">
+        <h3 class="cat-title">Bun, Pie & Tart</h3>
+        <div class="menu-item"><span class="item-name">Coffee Weng (Signature)</span><span class="item-price">27k</span></div>
+        <div class="menu-item"><span class="item-name">Polo Cheese</span><span class="item-price">25k</span></div>
+        <div class="menu-item"><span class="item-name">Raisin Milk</span><span class="item-price">24k</span></div>
+        <div class="menu-item"><span class="item-name">Mexico Choco</span><span class="item-price">23k</span></div>
+        <div class="menu-item"><span class="item-name">Pie Premium</span><span class="item-price">16k</span></div>
+        <div class="menu-item"><span class="item-name">Egg Tart</span><span class="item-price">12k</span></div>
+    </div>
+</div>
+ 
+    <section id="menu" class="section">
+        <div class="title-box">
+            <h2>Signature</h2>
+            <br></br>
+            <div class="menu-container">
+             <div class="menu-card">
+        <h3 class="cat-title">Classic & Latte</h3>
+        <div class="menu-item"><span class="item-name">Americano</span><span class="item-price">16k</span></div>
+        <div class="menu-item"><span class="item-name">Cappucino</span><span class="item-price">15k</span></div>
+        <div class="menu-item"><span class="item-name">Coffee Latte</span><span class="item-price">18k</span></div>
+        <div class="menu-item"><span class="item-name">Moccacino</span><span class="item-price">15k</span></div>
+        <div class="menu-item"><span class="item-name">Afogatto</span><span class="item-price">18k</span></div>
+        <div class="menu-item"><span class="item-name">Matcha Latte</span><span class="item-price">18k</span></div>
+        <div class="menu-item"><span class="item-name">Taro Latte</span><span class="item-price">18k</span></div>
+        <div class="menu-item"><span class="item-name">Klepon Latte</span><span class="item-price">18k</span></div>
+        <div class="menu-item"><span class="item-name">Choco Latte</span><span class="item-price">18k</span></div>
+    </div>
+
+    <div class="menu-card">
+        <h3 class="cat-title">Traditional & Tea</h3>
+        <div class="menu-item"><span class="item-name">Kopi Weng (Saring/Bubuk)</span><span class="item-price">15k</span></div>
+        <div class="menu-item"><span class="item-name">Kopi Arabica (Saring/Bubuk)</span><span class="item-price">18k</span></div>
+        <div class="menu-item"><span class="item-name">Kopi Arabica Gula Aren</span><span class="item-price">20k</span></div>
+        <div class="menu-item"><span class="item-name">Kopi Susu Arabica Gula Aren</span><span class="item-price">20k</span></div>
+        <div class="menu-item"><span class="item-name">Teh Susu Uncle Weng</span><span class="item-price">16k</span></div>
+        <div class="menu-item"><span class="item-name">Es Teh Uncle Weng</span><span class="item-price">8k</span></div>
+        <div class="menu-item"><span class="item-name">Teh Panas Uncle Weng</span><span class="item-price">8k</span></div>
+        <div class="menu-item"><span class="item-name">Air Mineral</span><span class="item-price">8k</span></div>
+    </div>
+
+    <div class="menu-card">
+        <h3 class="cat-title">Coffee Beans (Retail)</h3>
+        <div class="menu-item"><span class="item-name">Arabika Emas Weng Coffee (500g)</span><span class="item-price">102k</span></div>
+        <div class="menu-item"><span class="item-name">Robusta Premium Weng Coffee (500g)</span><span class="item-price">96k</span></div>
+        <div class="menu-item"><span class="item-name">Robusta Weng Coffee (500g)</span><span class="item-price">78k</span></div>
+        <div class="menu-item"><span class="item-name">Robusta Weng Coffee (200g)</span><span class="item-price">29k</span></div>
+    </div>
+</div>
+            
+
+
+     <section id="gallery" class="section">
+        <div class="title-box">
+            <h2>GALERI FOTO</h2>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="c:\Users\SMKN1 TEBAS\Pictures\kursi.jpg" alt="kursi">
+            </div>
+            <div class="gallery-item">
+                <img src="c:\Users\SMKN1 TEBAS\Pictures\cafeweng.jpg" alt="cafeweng"> 
+            </div>
+            <div class="gallery-item">
+                <img src="c:\Users\SMKN1 TEBAS\Pictures\coffewg.jpg" alt="coffewg">     
+            </div>
+            
+             <div class="gallery-item">
+                <img src="c:\Users\SMKN1 TEBAS\Pictures\unnamed.webp" alt="unnamed">   
+            </div> 
+            
+             <div class="gallery-item">
+                <img src="c:\Users\SMKN1 TEBAS\Pictures\weng.jpg" alt="weng">   
+            </div> 
+             <div class="gallery-item">
+                <img src="c:\Users\SMKN1 TEBAS\Pictures\wengcf.jpg" alt="wengcf">   
+            </div> 
+             
+             
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <div class="contact-box">
+            <div class="contact-info">
+                <h3>Kunjungi Kami</h3>
+                <p><strong>Alamat:</strong><br>Jalan Moh. Sohor, Pemangkat, tepat di depan Pantai Sinam.</p>
+                <br>
+                <p><strong>Jam Operasional:</strong><br>24 Jam</p>
+                <br>
+                <p><strong>WhatsApp:</strong><br>0821-8988-7839. </p>
+            </div>
+            <div class="map"> 
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.979144849672!2d108.9714083!3d1.1751548000000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31e483001fab844d%3A0x3fc5a9c397d6f5b0!2sWeng%20coffee%20pemangkat!5e0!3m2!1sid!2sid!4v1770973326262!5m2!1sid!2sid" width="120" height="120px" style="border:0;" allowfullscreen="cover" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>    
+        </div>
+    </section>
+
+    <footer>
+       <p>&copy; 2026 Kopi Jiwa Muda. Dibuat dengan cinta untuk pecinta kopi.</p>
+    </footer>
+
+
+</body>
+</html>
